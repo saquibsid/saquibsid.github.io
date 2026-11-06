@@ -909,34 +909,176 @@
                   </div>
 
                   <!-- Project Links -->
+
                   <div
-                    class="flex items-center gap-5 pt-4 border-t border-zinc-100 dark:border-zinc-800"
+                    class="flex items-center justify-between gap-3 pt-4 border-t border-zinc-100 dark:border-zinc-800"
                   >
+                    <button
+                      @click="openProject(project)"
+                      class="inline-flex items-center gap-2 text-sm font-medium text-accent hover:opacity-80 transition"
+                    >
+                      View Case Study
+                      <i data-lucide="arrow-up-right" class="w-4 h-4"></i>
+                    </button>
+
+                    <span
+                      x-show="project.confidential"
+                      class="text-xs text-zinc-400"
+                    >
+                      <i data-lucide="lock" class="w-3 h-3 inline"></i>
+                      Private Project
+                    </span>
+
                     <a
                       x-show="project.github"
                       :href="project.github"
                       target="_blank"
                       rel="noopener noreferrer"
-                      class="inline-flex items-center gap-2 text-sm font-medium text-zinc-600 dark:text-zinc-300 hover:text-accent transition-colors"
+                      class="text-sm text-zinc-500 hover:text-accent"
                     >
-                      <i data-lucide="github" class="w-4 h-4"></i>
                       GitHub
-                    </a>
-
-                    <a
-                      x-show="project.demo"
-                      :href="project.demo"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      class="inline-flex items-center gap-2 text-sm font-medium text-zinc-600 dark:text-zinc-300 hover:text-accent transition-colors"
-                    >
-                      <i data-lucide="external-link" class="w-4 h-4"></i>
-                      Live Demo
                     </a>
                   </div>
                 </div>
               </article>
             </template>
+          </div>
+        </div>
+
+        <!-- Project Case Study Modal -->
+        <div
+          x-show="selectedProject"
+          x-cloak
+          @keydown.escape.window="closeProject()"
+          @click.self="closeProject()"
+          class="fixed inset-0 z-50 bg-black/70 backdrop-blur-sm flex items-center justify-center p-4"
+        >
+          <div
+            x-show="selectedProject"
+            x-transition
+            class="bg-white dark:bg-zinc-900 w-full max-w-3xl max-h-[85vh] overflow-y-auto rounded-2xl border border-zinc-200 dark:border-zinc-800"
+          >
+            <!-- Modal Header -->
+            <div
+              class="sticky top-0 z-10 bg-white dark:bg-zinc-900 border-b border-zinc-200 dark:border-zinc-800 p-6 flex justify-between items-start"
+            >
+              <div>
+                <p
+                  class="text-xs text-accent uppercase tracking-widest mb-2"
+                  x-text="selectedProject?.category"
+                ></p>
+
+                <h2
+                  class="text-2xl font-bold"
+                  x-text="selectedProject?.title"
+                ></h2>
+              </div>
+
+              <button
+                @click="closeProject()"
+                aria-label="Close project details"
+                class="w-5 h-5 rounded-full hover:bg-zinc-100 dark:hover:bg-zinc-800"
+              >
+                <svg
+                  class="w-5 h-5"
+                  xmlns="http://w3.org"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke-width="1.5"
+                  stroke="currentColor"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M6 18 18 6M6 6l12 12"
+                  />
+                </svg>
+              </button>
+            </div>
+
+            <!-- Modal Content -->
+            <div class="p-6 space-y-7">
+              <div>
+                <h3 class="font-semibold mb-2">Overview</h3>
+                <p
+                  class="text-sm text-zinc-500 dark:text-zinc-400 leading-relaxed"
+                  x-text="selectedProject?.overview"
+                ></p>
+              </div>
+
+              <div>
+                <h3 class="font-semibold mb-2">Problem Statement</h3>
+                <p
+                  class="text-sm text-zinc-500 dark:text-zinc-400 leading-relaxed"
+                  x-text="selectedProject?.problem"
+                ></p>
+              </div>
+
+              <div>
+                <h3 class="font-semibold mb-2">My Role & Contributions</h3>
+                <ul class="space-y-2">
+                  <template
+                    x-for="(item, index) in selectedProject?.contributions || []"
+                    :key="index"
+                  >
+                    <li
+                      class="flex gap-2 text-sm text-zinc-500 dark:text-zinc-400"
+                    >
+                      <span class="text-accent">▹</span>
+                      <span x-text="item"></span>
+                    </li>
+                  </template>
+                </ul>
+              </div>
+
+              <div>
+                <h3 class="font-semibold mb-2">Technical Approach</h3>
+                <p
+                  class="text-sm text-zinc-500 dark:text-zinc-400 leading-relaxed"
+                  x-text="selectedProject?.approach"
+                ></p>
+              </div>
+
+              <div>
+                <h3 class="font-semibold mb-2">Key Challenges</h3>
+                <ul class="space-y-2">
+                  <template
+                    x-for="(item, index) in selectedProject?.challenges || []"
+                    :key="index"
+                  >
+                    <li
+                      class="flex gap-2 text-sm text-zinc-500 dark:text-zinc-400"
+                    >
+                      <span class="text-accent">▹</span>
+                      <span x-text="item"></span>
+                    </li>
+                  </template>
+                </ul>
+              </div>
+
+              <div>
+                <h3 class="font-semibold mb-2">Outcome</h3>
+                <p
+                  class="text-sm text-zinc-500 dark:text-zinc-400 leading-relaxed"
+                  x-text="selectedProject?.outcome"
+                ></p>
+              </div>
+
+              <div>
+                <h3 class="font-semibold mb-3">Technologies</h3>
+                <div class="flex flex-wrap gap-2">
+                  <template
+                    x-for="tech in selectedProject?.technologies || []"
+                    :key="tech"
+                  >
+                    <span
+                      class="text-xs px-3 py-1 rounded-md bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-300"
+                      x-text="tech"
+                    ></span>
+                  </template>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </section>
@@ -1458,61 +1600,233 @@
 
       function projectsSection() {
         return {
+          selectedProject: null,
+
+          openProject(project) {
+            this.selectedProject = project;
+            document.body.style.overflow = "hidden";
+          },
+
+          closeProject() {
+            this.selectedProject = null;
+            document.body.style.overflow = "";
+          },
+
           projects: [
             {
               id: 1,
-              title: "AI Test Case Generator",
-              category: "Full Stack",
-              description:
-                "An application that integrates with Azure DevOps to fetch user stories, generate manual test cases, and publish test plans.",
-              image: "https://placehold.co/600x400?text=AI+Test+Case+Generator",
-              technologies: [
-                "React",
-                "Java",
-                "Azure DevOps API",
-                "TanStack Query",
-                "Chakra UI",
+              title: "FedEx Carbon Emission Insights",
+              category: "Enterprise Application",
+              confidential: true,
+
+              image: "/images/projects/carbon-emissions.png",
+
+              overview:
+                "An application designed to evaluate and manage carbon impact, with the help this customer can better understand their shipping patterns and environmental impact. All you need is a fedex.com user ID and a FedEx account number to get started. Then you’ll get a complete rundown of your estimated carbon footprint so far.",
+
+              problem:
+                "Organizations often lack a centralized way to monitor and analyze carbon emissions across business activities. The application addresses this challenge by providing carbon footprint tracking, emission insights, and data visualization to help stakeholders monitor environmental impact and support sustainability goals.",
+
+              contributions: [
+                "Developed the Angular-based application interface.",
+                "Implement Okta SSO to authenticate internal users",
+                "Integrate ng2-charts library to show data in visual format",
+                "Used Material UI to design the controls",
               ],
+
+              approach:
+                "Used Angular with reusable components and also used RxJs operators to share the data b/w the components.Implement Okta SSO to authenticate the users, and integrated backend APIs to manage data and application workflows.",
+
+              challenges: [
+                "Presenting complex emission-related datasets in an understandable format.",
+                "Building reusable components for consistent dashboard experiences.",
+                "Handling API-driven data and dynamically updating visualizations.",
+                "Maintaining responsive layouts for data-intensive interfaces.",
+              ],
+
+              outcome:
+                "The application provided a centralized view of carbon emission information, making it easier for stakeholders to monitor environmental impact, understand emission trends, and support data-driven sustainability initiatives.",
+
+              technologies: [
+                "Angular",
+                "Typescript",
+                "Javascript",
+                "HTML5",
+                "CSS3",
+                "Material UI",
+                "Okta",
+                "REST APIs",
+              ],
+
               github: "",
-              demo: "",
+              demo: "https://www.fedex.com/en-il/about/sustainability/carbon-footprint-insights.html",
             },
+
             {
               id: 2,
-              title: "AI Code Review Summarizer",
-              category: "AI Integration",
-              description:
-                "A web application that uses AI to analyze code reviews and generate meaningful summaries for developers.",
-              image: "https://placehold.co/600x400?text=AI+Code+Review",
+              title: "B2B Order & Shipment Management",
+              category: "Enterprise B2B Application",
+              confidential: true,
+
+              image: "/images/projects/fedex-oms.png",
+
+              overview:
+                "An enterprise B2B application that enables retailers to create shipment orders after receiving orders from their customers. The application provides a structured workflow to enter packing details, select appropriate FedEx packaging based on item requirements, provide shipping information, and complete order creation.",
+
+              problem:
+                "Retailers need an efficient and reliable way to create shipment orders after receiving customer orders. The process involves capturing item and packaging information, selecting suitable FedEx packages based on business rules, and providing accurate shipping details. Without proper package validation and a structured workflow, retailers may select unsuitable packaging, potentially resulting in incorrect shipment information and operational issues.",
+
+              contributions: [
+                "Developed the Order Creation feature using React and JavaScript within an enterprise B2B application.",
+                "Worked on integrating the Order Creation microfrontend into the shared application shell using Webpack Module Federation.",
+                "Implemented packing details functionality to capture item and package-related information.",
+                "Developed business-rule-driven validations to determine suitable FedEx package types based on selected items.",
+                "Implemented shipping details functionality to capture shipment-related information.",
+                "Developed the order creation workflow connecting packing details, package validation, and shipping information.",
+                "Integrated backend APIs to support order-related operations and application workflows.",
+                "Built reusable React components to maintain consistency and improve frontend maintainability.",
+              ],
+
+              approach:
+                "Used React and JavaScript to develop the Order Creation microfrontend. Integrated the feature into the existing shared shell using Webpack Module Federation. Structured the workflow into packing details, package validation, shipping details, and order creation. Implemented business-rule-based validation to ensure appropriate FedEx packaging was selected according to item requirements, and integrated backend REST APIs to support order-related operations.",
+
+              challenges: [
+                "Microfrontend Integration: Integrating the Order Creation feature into the shared shell while maintaining consistency with the existing application experience.",
+                "Package Validation: Implementing business rules to determine suitable FedEx packaging based on selected items and their requirements.",
+                "Complex Workflow Management: Handling multiple stages of order creation while maintaining consistency across packing and shipping details.",
+                "Dynamic Form Handling: Managing user inputs, validation states, and workflow transitions across different order creation steps.",
+                "API Integration: Handling asynchronous API interactions and maintaining reliable communication with backend services.",
+              ],
+
+              outcome:
+                "Delivered a dedicated Order Creation microfrontend within the enterprise B2B application, enabling retailers to manage packing information, validate package selections, enter shipping details, and complete the shipment order creation workflow through a structured user experience.",
+
               technologies: [
                 "React",
-                "Node.js",
-                "Express",
-                "MySQL",
-                "OpenAI API",
+                "JavaScript",
+                "Webpack Module Federation",
+                "Microfrontend Architecture",
+                "HTML5",
+                "CSS3",
+                "REST APIs",
               ],
+
               github: "",
-              demo: "",
+              demo: "https://portal.fdx.com/",
             },
             {
               id: 3,
-              title: "Real-Time Chat Application",
-              category: "Full Stack",
-              description:
-                "A real-time messaging application featuring instant communication using WebSockets.",
-              image: "https://placehold.co/600x400?text=Chat+Application",
-              technologies: [
-                "Node.js",
-                "Express",
-                "Socket.IO",
-                "JavaScript",
-                "jQuery",
+              title: "FedEx Customs Compliance & Shipment Advisory System",
+              category: "Enterprise Logistics Application",
+              confidential: true,
+              image: "/images/projects/caging-system.png",
+
+              overview:
+                "An enterprise application designed to help overcome customs-related shipment delays by providing brokers with the information and guidance required for international shipments. The system organizes shipment items along with their Harmonized System (HS) codes and uses origin and destination country information to help brokers identify applicable customs requirements, documentation needs, and shipping advisories to support smoother customs clearance.",
+
+              problem:
+                "International shipments can face customs clearance delays when shipment items lack accurate classification or when country-specific regulatory requirements and documentation are not properly identified. Brokers need a centralized way to review shipment items, their HS codes, and the requirements applicable to the shipment's origin and destination countries. The system addresses this challenge by organizing item-level information and providing relevant customs requirements and advisories to support the clearance process.",
+
+              contributions: [
+                "Contributed to the development of an enterprise customs compliance application for international shipments.",
+                "Worked on displaying shipment items along with their associated Harmonized System (HS) codes.",
+                "Implemented data table functionality to help brokers efficiently review and manage shipment item information.",
+                "Developed search functionality to help users quickly locate specific shipment items and records.",
+                "Implemented pagination to support navigation through large datasets.",
+                "Added filtering capabilities to help brokers narrow down shipment information based on relevant criteria.",
+                "Implemented column sorting to make shipment data easier to organize and review.",
+                "Supported the workflow through which brokers identify customs requirements and shipping advisories based on origin and destination countries.",
               ],
-              github: "https://github.com/saquibsid/chat-app",
-              demo: "https://github.com/saquibsid/chat-app",
+
+              approach:
+                "The application organizes shipment information at the item level, associating each item with its corresponding HS code. Origin and destination country information is used to identify relevant customs requirements and advisories that brokers need to consider before shipping. On the frontend, data table functionality was implemented with search, pagination, filtering, and sorting to make large volumes of shipment information easier to navigate and manage.",
+
+              challenges: [
+                "Customs Data Management: Presenting shipment items and their associated HS codes in a structured and easily accessible format.",
+                "Country-Based Requirements: Supporting the identification of customs requirements and advisories based on shipment origin and destination countries.",
+                "Large Dataset Handling: Making shipment item information manageable through pagination and efficient data navigation.",
+                "Data Discovery: Implementing search and filtering capabilities so brokers can quickly locate relevant shipment records.",
+                "Data Organization: Providing sorting functionality to help users review and organize shipment information efficiently.",
+                "User Experience: Designing a data-heavy interface that allows brokers to access important shipment and customs information without unnecessary complexity.",
+              ],
+
+              outcome:
+                "Delivered frontend functionality supporting a customs compliance workflow that helps brokers review shipment items, HS codes, and country-specific customs requirements and advisories. The data table features improved the ability to search, filter, sort, and navigate shipment information, supporting more efficient customs-related review and decision-making.",
+
+              technologies: [
+                "React",
+                "JavaScript",
+                "Webpack Module Federation",
+                "Microfrontend Architecture",
+                "HTML5",
+                "CSS3",
+                "REST APIs",
+              ],
+
+              github: "",
+              demo: "https://www.fedex.com/en-in/shipping-tools.html",
             },
           ],
         };
       }
+
+      // function projectsSection() {
+      //   return {
+      //     projects: [
+      //       {
+      //         id: 1,
+      //         title: "AI Test Case Generator",
+      //         category: "Full Stack",
+      //         description:
+      //           "An application that integrates with Azure DevOps to fetch user stories, generate manual test cases, and publish test plans.",
+      //         image: "https://placehold.co/600x400?text=AI+Test+Case+Generator",
+      //         technologies: [
+      //           "React",
+      //           "Java",
+      //           "Azure DevOps API",
+      //           "TanStack Query",
+      //           "Chakra UI",
+      //         ],
+      //         github: "",
+      //         demo: "",
+      //       },
+      //       {
+      //         id: 2,
+      //         title: "AI Code Review Summarizer",
+      //         category: "AI Integration",
+      //         description:
+      //           "A web application that uses AI to analyze code reviews and generate meaningful summaries for developers.",
+      //         image: "https://placehold.co/600x400?text=AI+Code+Review",
+      //         technologies: [
+      //           "React",
+      //           "Node.js",
+      //           "Express",
+      //           "MySQL",
+      //           "OpenAI API",
+      //         ],
+      //         github: "",
+      //         demo: "",
+      //       },
+      //       {
+      //         id: 3,
+      //         title: "Real-Time Chat Application",
+      //         category: "Full Stack",
+      //         description:
+      //           "A real-time messaging application featuring instant communication using WebSockets.",
+      //         image: "https://placehold.co/600x400?text=Chat+Application",
+      //         technologies: [
+      //           "Node.js",
+      //           "Express",
+      //           "Socket.IO",
+      //           "JavaScript",
+      //           "jQuery",
+      //         ],
+      //         github: "https://github.com/saquibsid/chat-app",
+      //         demo: "https://github.com/saquibsid/chat-app",
+      //       },
+      //     ],
+      //   };
+      // }
     </script>
   </body>
 </html>
