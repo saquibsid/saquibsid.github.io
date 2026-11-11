@@ -1615,6 +1615,66 @@
           projects: [
             {
               id: 1,
+              title: "AI-Powered Test Case Generator",
+              category: "Enterprise Application",
+              confidential: true,
+
+              image: "/images/projects/ai-automate-testcases.webp",
+
+              overview:
+                "An AI-powered application designed to automate test case generation from Azure DevOps user stories. The application retrieves sprint-wise user stories, generates test cases using AI, and enables QA engineers to review, edit, and approve generated test cases before publishing them directly to Azure DevOps Test Plans.",
+
+              problem:
+                "QA teams spend considerable time manually analyzing user stories and writing test cases. This process is repetitive, time-consuming, and can lead to inconsistent test coverage. The application addresses this challenge by leveraging AI to automate test case generation and streamline the QA workflow.",
+
+              contributions: [
+                "Developed a React-based application using Vite to manage sprint-wise user stories and test case generation workflows.",
+                "Integrated Azure DevOps REST APIs to retrieve sprint information and associated user stories.",
+                "Implemented single and multiple user story selection to support bulk test case generation.",
+                "Integrated AI services to generate test cases based on selected user stories.",
+                "Developed an interactive QA review interface allowing testers to edit generated test cases, add new test cases, and validate results.",
+                "Implemented an approval-based workflow to ensure test cases are reviewed before publishing.",
+                "Integrated Azure DevOps Test Plans APIs to publish approved test cases directly into Azure Test Plans.",
+                "Used TanStack Query for efficient API state management, caching, and asynchronous data fetching.",
+                "Developed backend services using Node.js and Express.js to manage application workflows and API integrations.",
+                "Used PostgreSQL to manage application data.",
+              ],
+
+              approach:
+                "Designed a full-stack architecture using React, Vite, Node.js, and Express.js. Integrated Azure DevOps REST APIs to fetch sprint-wise user stories and implemented AI-powered test case generation for individual or multiple selected stories. Used TanStack Query to manage server state and asynchronous API operations. Implemented a QA review and approval workflow before publishing approved test cases to Azure DevOps Test Plans. Used PostgreSQL for backend data management.",
+
+              challenges: [
+                "Integrating Azure DevOps APIs to retrieve sprint-wise user stories and manage Test Plans.",
+                "Designing an efficient workflow to handle AI-generated test cases for multiple user stories.",
+                "Ensuring generated test cases could be reviewed, modified, and validated by QA engineers.",
+                "Implementing an approval-based publishing workflow to prevent unreviewed test cases from being imported.",
+                "Managing asynchronous AI generation requests and API states across the application.",
+                "Maintaining consistency between generated test cases and Azure DevOps Test Plan structures.",
+              ],
+
+              outcome:
+                "The application streamlined the test case creation process by reducing manual QA effort through AI-powered automation. It enabled QA engineers to generate test cases from multiple user stories, review and modify AI-generated results, and publish approved test cases directly into Azure DevOps Test Plans, improving overall testing workflow efficiency.",
+
+              technologies: [
+                "React",
+                "Vite",
+                "Javascript",
+                "Typescript",
+                "TanStack Query",
+                "Node.js",
+                "Express.js",
+                "PostgreSQL",
+                "Azure DevOps REST APIs",
+                "AI Integration",
+                "HTML5",
+                "CSS3",
+              ],
+
+              github: "",
+              demo: "",
+            },
+            {
+              id: 2,
               title: "FedEx Carbon Emission Insights",
               category: "Enterprise Application",
               confidential: true,
@@ -1663,7 +1723,7 @@
             },
 
             {
-              id: 2,
+              id: 3,
               title: "B2B Order & Shipment Management",
               category: "Enterprise B2B Application",
               confidential: true,
@@ -1715,7 +1775,7 @@
               demo: "https://portal.fdx.com/",
             },
             {
-              id: 3,
+              id: 4,
               title: "FedEx Customs Compliance & Shipment Advisory System",
               category: "Enterprise Logistics Application",
               confidential: true,
